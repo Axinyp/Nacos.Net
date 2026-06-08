@@ -8,6 +8,8 @@
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Axinyp%2FNacos.Net-181717?logo=github)](https://github.com/Axinyp/Nacos.Net)
 
+English | [中文](README.zh-CN.md)
+
 ---
 
 ## Packages
