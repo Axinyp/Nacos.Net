@@ -8,11 +8,11 @@ namespace ConferenceAIOServer.Nacos.Tests.Integration.Fixtures;
 /// </summary>
 public sealed class NacosFixture : IAsyncLifetime
 {
-    public const string ServerAddress = "http://172.16.50.165:8848/";
+    public const string ServerAddress = "http://127.0.0.1:8848/";
     public const string Namespace     = "dev";
     public const string GroupName     = "server2_0";
     public const string UserName      = "nacos";
-    public const string Password      = "Itc2025!@#";
+    public const string Password      = "nacos";
 
     public IServiceProvider Services { get; private set; } = null!;
 

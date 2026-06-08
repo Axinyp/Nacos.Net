@@ -1,0 +1,65 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore dependencies
+        run: dotnet restore src/Nacos.NET/Nacos.NET.csproj
+
+      - name: Run tests
+        run: dotnet test tests/Nacos.NET.Tests/Nacos.NET.Tests.csproj --configuration Release --no-restore
+
+      - name: Pack Nacos.NET
+        run: |
+          dotnet pack src/Nacos.NET/Nacos.NET.csproj \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.VERSION }} \
+            --output ./nupkgs
+
+      - name: Pack Nacos.NET.Extensions.Configuration
+        run: |
+          dotnet pack src/Nacos.NET.Extensions.Configuration/Nacos.NET.Extensions.Configuration.csproj \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.VERSION }} \
+            --output ./nupkgs
+
+      - name: Pack Nacos.NET.Config.Encryption
+        run: |
+          dotnet pack src/Nacos.NET.Config.Encryption/Nacos.NET.Config.Encryption.csproj \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.VERSION }} \
+            --output ./nupkgs
+
+      - name: Pack Nacos.NET.AspNetCore
+        run: |
+          dotnet pack src/Nacos.NET.AspNetCore/Nacos.NET.AspNetCore.csproj \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.VERSION }} \
+            --output ./nupkgs
+
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push ./nupkgs/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
