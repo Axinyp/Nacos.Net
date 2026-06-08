@@ -62,7 +62,7 @@ jobs:
 
       - name: Push to NuGet.org
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.nuget_apikey }}
         run: |
           if [ -z "$NUGET_API_KEY" ]; then
             echo "::error::NUGET_API_KEY secret is not set. Add it in Settings → Secrets → Actions."
