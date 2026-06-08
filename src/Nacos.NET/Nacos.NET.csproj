@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);1591;CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625</NoWarn>
+
+    <!-- NuGet 元数据 -->
+    <PackageId>Nacos.NET</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>liufx</Authors>
+    <Company>ConferenceAIO</Company>
+    <Description>Nacos client for .NET — service registration/discovery and configuration center, gRPC v2 protocol support.</Description>
+    <PackageTags>nacos;service-discovery;configuration;grpc;dotnet</PackageTags>
+    <RepositoryUrl>https://github.com/Axinyp/Nacos.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.35.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.80.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.80.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="V2/protos/nacos_grpc_service.proto" GrpcServices="None" />
+  </ItemGroup>
+
+</Project>

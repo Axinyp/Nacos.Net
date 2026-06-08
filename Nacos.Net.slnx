@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Nacos.NET.AspNetCore/Nacos.NET.AspNetCore.csproj" />
+    <Project Path="src/Nacos.NET.Config.Encryption/Nacos.NET.Config.Encryption.csproj" />
+    <Project Path="src/Nacos.NET.Extensions.Configuration/Nacos.NET.Extensions.Configuration.csproj" />
+    <Project Path="src/Nacos.NET/Nacos.NET.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Nacos.NET.Tests/Nacos.NET.Tests.csproj" />
+  </Folder>
+</Solution>

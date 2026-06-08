@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);1591;CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625</NoWarn>
+
+    <PackageId>Nacos.NET.Extensions.Configuration</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>liufx</Authors>
+    <Company>ConferenceAIO</Company>
+    <Description>Microsoft.Extensions.Configuration provider for Nacos — pulls remote config on startup and watches for changes.</Description>
+    <PackageTags>nacos;configuration;dotnet;aspnetcore</PackageTags>
+    <RepositoryUrl>https://github.com/Axinyp/Nacos.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nacos.NET\Nacos.NET.csproj" />
+  </ItemGroup>
+
+</Project>
