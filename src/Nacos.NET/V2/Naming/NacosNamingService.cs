@@ -38,6 +38,13 @@
             _logger = loggerFactory.CreateLogger<NacosNamingService>();
             _options = optionAccs.Value;
             _namespace = string.IsNullOrWhiteSpace(_options.Namespace) ? Utils.UtilAndComs.DEFAULT_NAMESPACE_ID : _options.Namespace;
+
+#pragma warning disable CS0618
+            if (!_options.NamingUseRpc)
+                _logger.LogCritical("[Nacos] NamingUseRpc=false uses HTTP v1 API which was removed in Nacos 3.2. "
+                    + "Connectivity will fail against Nacos ≥ 3.2 servers. Set NamingUseRpc=true (the default).");
+#pragma warning restore CS0618
+
             this._changeNotifier = new InstancesChangeNotifier();
             this._serviceInfoHolder = new ServiceInfoHolder(_logger, _namespace, _options, _changeNotifier);
             this._clientProxy = new NamingClientProxyDelegate(_logger, _namespace, _serviceInfoHolder, _options, _changeNotifier, clientFactory);

@@ -50,8 +50,10 @@
             {
                 this.grpcClientProxy = new NamingGrpcClientProxy(logger, @namespace, securityProxy, serverListManager, options, serviceInfoHolder);
             }
-
-            this.httpClientProxy = new NamingHttpClientProxy(logger, @namespace, securityProxy, serverListManager, options, serviceInfoHolder, clientFactory);
+            else
+            {
+                this.httpClientProxy = new NamingHttpClientProxy(logger, @namespace, securityProxy, serverListManager, options, serviceInfoHolder, clientFactory);
+            }
         }
 
         private void InitSecurityProxy()
@@ -111,7 +113,10 @@
         }
 
         public async Task UpdateBeatInfo(List<Instance> modifiedInstances)
-            => await httpClientProxy.UpdateBeatInfo(modifiedInstances).ConfigureAwait(false);
+        {
+            if (!_options.NamingUseRpc && httpClientProxy != null)
+                await httpClientProxy.UpdateBeatInfo(modifiedInstances).ConfigureAwait(false);
+        }
 
         public async Task UpdateInstance(string serviceName, string groupName, Instance instance)
             => await GetProxyForInstance(instance).UpdateInstance(serviceName, groupName, instance).ConfigureAwait(false);
@@ -122,10 +127,15 @@
 
         private INamingClientProxy GetProxyForInstance(Instance instance)
         {
-            // Persistent instances (Ephemeral=false) must use HTTP when gRPC server doesn't support it
+            // Persistent instances fall back to HTTP only when gRPC server explicitly doesn't support them.
+            // In Nacos 3.x, SupportPersistentInstanceByGrpc is always true so this branch is never taken.
             if (_options.NamingUseRpc && grpcClientProxy != null && !instance.Ephemeral
                 && !grpcClientProxy.IsAbilitySupported(AbilityKeys.SupportPersistentInstanceByGrpc))
             {
+                if (httpClientProxy == null)
+                    throw new InvalidOperationException(
+                        "Persistent instance registration requires HTTP fallback, but NamingUseRpc=true and the Nacos server "
+                        + "does not advertise SupportPersistentInstanceByGrpc. Upgrade to Nacos 3.x or set NamingUseRpc=false.");
                 return httpClientProxy;
             }
 

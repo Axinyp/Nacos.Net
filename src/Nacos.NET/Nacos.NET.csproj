@@ -8,7 +8,7 @@
 
     <!-- NuGet 元数据 -->
     <PackageId>Nacos.NET</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>liufx</Authors>
     <Company>ConferenceAIO</Company>
     <Description>Nacos client for .NET — service registration/discovery and configuration center, gRPC v2 protocol support.</Description>

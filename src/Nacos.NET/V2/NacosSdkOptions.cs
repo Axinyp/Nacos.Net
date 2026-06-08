@@ -50,8 +50,12 @@
         /// </summary>
         public int ListenInterval { get; set; } = 1000;
 
+        [Obsolete("HTTP v1 API was removed in Nacos 3.2. Setting this to false will break connectivity with Nacos ≥ 3.2 servers. " +
+                  "This option will be removed in a future release. Default (true) uses gRPC and is safe for all Nacos versions.")]
         public bool ConfigUseRpc { get; set; } = true;
 
+        [Obsolete("HTTP v1 API was removed in Nacos 3.2. Setting this to false will break connectivity with Nacos ≥ 3.2 servers. " +
+                  "This option will be removed in a future release. Default (true) uses gRPC and is safe for all Nacos versions.")]
         public bool NamingUseRpc { get; set; } = true;
 
         public string NamingLoadCacheAtStart { get; set; }

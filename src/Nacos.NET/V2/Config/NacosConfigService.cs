@@ -21,6 +21,13 @@
         {
             this._logger = loggerFactory.CreateLogger<NacosConfigService>();
             this._namespace = optionsAccs.Value.Namespace;
+
+#pragma warning disable CS0618
+            if (!optionsAccs.Value.ConfigUseRpc)
+                _logger.LogCritical("[Nacos] ConfigUseRpc=false uses HTTP v1 API which was removed in Nacos 3.2. "
+                    + "Connectivity will fail against Nacos ≥ 3.2 servers. Set ConfigUseRpc=true (the default).");
+#pragma warning restore CS0618
+
             this._configFilterChainManager = new ConfigFilterChainManager(optionsAccs.Value, loggerFactory);
             this._worker = new ClientWorker(_logger, _configFilterChainManager, optionsAccs.Value);
         }
