@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -58,8 +61,14 @@ jobs:
             --output ./nupkgs
 
       - name: Push to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "::error::NUGET_API_KEY secret is not set. Add it in Settings → Secrets → Actions."
+            exit 1
+          fi
           dotnet nuget push ./nupkgs/*.nupkg \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --api-key "$NUGET_API_KEY" \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
