@@ -75,7 +75,13 @@
         public async Task DeregisterService(string serviceName, string groupName, Instance instance)
             => await GetProxyForInstance(instance).DeregisterService(serviceName, groupName, instance).ConfigureAwait(false);
 
-        public void Dispose() => grpcClientProxy?.Dispose();
+        public void Dispose()
+        {
+            _loginTimer?.Dispose();
+            _loginTimer = null;
+            grpcClientProxy?.Dispose();
+            serverListManager?.Dispose();
+        }
 
         public async Task<ListView<string>> GetServiceList(int pageNo, int pageSize, string groupName, AbstractSelector selector)
             => await GetExecuteClientProxy().GetServiceList(pageNo, pageSize, groupName, selector).ConfigureAwait(false);

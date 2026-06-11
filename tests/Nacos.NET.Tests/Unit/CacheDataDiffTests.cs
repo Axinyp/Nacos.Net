@@ -167,7 +167,7 @@ public class CacheDataDiffTests
     // ── listener concurrency ─────────────────────────────────────────────────
 
     [Fact]
-    public void AddAndRemoveListener_Thread_Safe()
+    public async Task AddAndRemoveListener_Thread_Safe()
     {
         var filterMgr = new ConfigFilterChainManager(new NacosSdkOptions());
         var cache = new CacheData(filterMgr, "app", "did", "group", "ns");
@@ -182,13 +182,13 @@ public class CacheDataDiffTests
             tasks.Add(System.Threading.Tasks.Task.Run(() => cache.AddListener(l)));
         }
 
-        System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+        await System.Threading.Tasks.Task.WhenAll(tasks.ToArray());
 
         // concurrent removes should not throw
         var removeTasks = new List<System.Threading.Tasks.Task>();
         foreach (var l in listeners)
             removeTasks.Add(System.Threading.Tasks.Task.Run(() => cache.RemoveListener(l)));
-        System.Threading.Tasks.Task.WaitAll(removeTasks.ToArray());
+        await System.Threading.Tasks.Task.WhenAll(removeTasks.ToArray());
 
         Assert.Empty(cache.GetListeners());
     }

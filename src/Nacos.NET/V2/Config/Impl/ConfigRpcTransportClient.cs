@@ -17,7 +17,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class ConfigRpcTransportClient : AbstConfigTransportClient
+    public class ConfigRpcTransportClient : AbstConfigTransportClient, IDisposable
     {
         private static readonly string RPC_AGENT_NAME = "config_rpc_client";
 
@@ -597,6 +597,13 @@
                     _logger?.LogWarning(ex, "[CONFIG-FUZZY-WATCH] Redo failed for group={0} pattern={1}", group, pattern);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _loginTimer?.Dispose();
+            _loginTimer = null;
+            _listenExecutebell?.Dispose();
         }
     }
 }

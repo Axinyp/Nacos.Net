@@ -9,7 +9,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class NacosConfigService : INacosConfigService
+    public class NacosConfigService : INacosConfigService, IDisposable
     {
         private readonly ILogger _logger;
         private readonly ClientWorker _worker;
@@ -67,6 +67,8 @@
             => _worker.RemoveTenantListener(dataId, group, listener);
 
         public Task ShutDown() => Task.CompletedTask;
+
+        public void Dispose() => _worker?.Dispose();
 
         public Task FuzzyWatchConfig(string group, string dataIdPattern, IConfigFuzzyWatcher watcher)
             => _worker.FuzzyWatchConfig(group, dataIdPattern, watcher);

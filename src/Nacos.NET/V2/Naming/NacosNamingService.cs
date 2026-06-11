@@ -14,7 +14,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
 
-    public class NacosNamingService : INacosNamingService
+    public class NacosNamingService : INacosNamingService, IDisposable
     {
         private static readonly string UP = "UP";
         private static readonly string DOWN = "DOWN";
@@ -265,6 +265,8 @@
         }
 
         public Task ShutDown() => Task.CompletedTask;
+
+        public void Dispose() => (_clientProxy as IDisposable)?.Dispose();
 
         public async Task Subscribe(string serviceName, IEventListener listener)
             => await Subscribe(serviceName, new List<string>(), listener).ConfigureAwait(false);
